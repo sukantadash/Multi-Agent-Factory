@@ -1,16 +1,11 @@
 # Intelligent Operations Agent (Phase-1) Requirements
 # Core dependencies
 
-# llama-stack client library (compatible with server version 0.2.22)
-llama-stack-client==0.2.22
-
 # LangGraph for workflow orchestration
 langgraph>=0.2.0
 langchain-core>=0.3.0
 
-# LangChain 1.0 for OpenAI-compatible agent (optional, for agent_helper_openai.py)
-# Using specific compatible versions to avoid dependency conflicts
-# Note: These are optional - only needed if using agent_helper_openai.py
+# OpenAI-compatible Chat Completions engine (agent_helper_openai.py)
 langchain==1.2.3
 langchain-openai==1.1.7
 langchain-mcp-adapters==0.2.1
@@ -26,6 +21,7 @@ termcolor==3.1.0
 # HTTP and API clients
 requests==2.32.3
 httpx==0.28.1
+openai>=1.0.0
 
 # Type hints and validation
 # Note: typing-extensions>=4.14.0 required by langchain-mcp-adapters

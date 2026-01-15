@@ -2,6 +2,18 @@
 
 This project implements a **multi-agent factory**: you can build *any* use case by composing a workflow from configurable “agents” (nodes), each with its own tools and prompts, and routing logic that orchestrates them.
 
+## LLM runtime / agent engines (llama-stack 0.3.0)
+
+This factory is designed for **llama-stack 0.3.0** and can be configured to use two agent engines:
+
+- **OpenAI-compatible APIs**: `agent_helper_openai.py` (Chat Completions via OpenAI-compatible endpoint + MCP adapters)
+- **Responses APIs**: `agent_helper_responseapi.py` (Responses API via OpenAI-compatible endpoint)
+
+Select the engine in `config.env`:
+
+- `AGENT_ENGINE=openai-compatible`
+- `AGENT_ENGINE=responses-api`
+
 At runtime, `agent_workflow.py` reads two JSON configuration files:
 
 - `workflow_nodes_rules.json`: **orchestration** (graph structure + node I/O contract + routing).
@@ -148,5 +160,6 @@ The workflow uses prompt IDs from `workflow_prompts.json`:
   - parses JSON into state,
   - routes based on state.
 
-This means you can replace the entire business workflow (e.g., “operations incident handling”) with a different one (e.g., “fraud investigation” or “loan onboarding verification”) by swapping the JSON configs while keeping the same execution engine.
+This means you can replace the entire business workflow (e.g., “Intelligent Operation Agent” or "Accelerating OCP-Virt Migration Project with AI") with a different one (e.g., “fraud investigation” or “loan onboarding verification”) by swapping the JSON configs while keeping the same execution engine.
+
 

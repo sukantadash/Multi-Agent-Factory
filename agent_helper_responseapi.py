@@ -289,14 +289,16 @@ def run_agent(system_prompt: str, user_prompt: str, tool_group: str,
         # - input: user message(s) - can be string or list of messages
         # - instructions: system prompt
         # - tools: list of tool configurations
-        # - max_infer_iters: maximum inference iterations
+        #
+        # Note: max_infer_iters is NOT a supported parameter for OpenAI Responses API.
+        # We keep it in the function signature for compatibility with other helpers,
+        # but we do not pass it to the API client.
         response = client.responses.create(
             model=config.get('model', 'llama-4-scout-17b-16e-w4a16'),
             input=user_prompt,  # Can be string or list of message dicts
             instructions=system_prompt,
             tools=tools,
             temperature=config.get('temperature', 0.7),
-            max_infer_iters=max_infer_iters,
             stream=False,
         )
         

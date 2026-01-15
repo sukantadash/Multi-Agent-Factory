@@ -34,21 +34,30 @@ logger = logging.getLogger(__name__)
 from langgraph.graph import StateGraph
 from langgraph.graph.message import add_messages
 
-# Agent helper imports - choose based on environment
+# Agent helper imports
+# Supported engines:
+# - openai-compatible: OpenAI-compatible Chat Completions API via LangChain + MCP adapters
+# - responses-api: OpenAI-compatible Responses API
 load_dotenv('config.env')
-USE_OPENAI_AGENT = os.getenv('USE_OPENAI_AGENT', 'false').lower() == 'true'
 
-if USE_OPENAI_AGENT:
-    try:
+# Engine selection (single flag)
+AGENT_ENGINE = os.getenv('AGENT_ENGINE', 'responses-api').strip().lower()
+
+def _load_agent_helper(engine: str):
+    engine = (engine or '').strip().lower()
+    if engine == 'responses-api':
+        from agent_helper_responseapi import run_agent, extract_json_from_response
+        print("[INFO] Using Responses API agent helper (agent_helper_responseapi)")
+        return run_agent, extract_json_from_response
+
+    if engine == 'openai-compatible':
         from agent_helper_openai import run_agent, extract_json_from_response
         print("[INFO] Using OpenAI-compatible agent helper (agent_helper_openai)")
-    except ImportError as e:
-        print(f"[WARNING] Failed to import agent_helper_openai: {e}")
-        print("[INFO] Falling back to llama-stack agent helper (agent_helper)")
-        from agent_helper import run_agent, extract_json_from_response
-else:
-    from agent_helper import run_agent, extract_json_from_response
-    print("[INFO] Using llama-stack agent helper (agent_helper)")
+        return run_agent, extract_json_from_response
+
+    raise ValueError(f"Unsupported AGENT_ENGINE='{engine}'. Use 'responses-api' or 'openai-compatible'.")
+
+run_agent, extract_json_from_response = _load_agent_helper(AGENT_ENGINE)
 
 
 # ============================================================================
