@@ -1,4 +1,4 @@
-# High-Level Design — Multi‑Agent Factory (Config‑Driven Workflow)
+# High-Level Design — multi agent factory (Config‑Driven Workflow)
 
 This project implements a **multi-agent factory**: you can build *any* use case by composing a workflow from configurable “agents” (nodes), each with its own tools and prompts, and routing logic that orchestrates them.
 
